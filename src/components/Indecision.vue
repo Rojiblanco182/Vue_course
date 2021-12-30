@@ -6,7 +6,7 @@
         <input type="text" placeholder="Hazme una pregunta" v-model="question">
         <p>Recuerda terminar la pregunta con ?</p>
 
-        <div>
+        <div v-if="isValidQuestion" >
             <h2> {{ question }} </h2>
             <h1> {{ answer }} </h1>
         </div>
@@ -19,20 +19,25 @@ export default {
     data() {
         return {
             question: null,
-            answer: null
+            answer: null,
+            imgSource: null,
+            isValidQuestion: false
         }
     },
     methods: {
         async getAnswer() {
             this.answer = 'Pensando...'
             const {answer, image} = await fetch('https://yesno.wtf/api').then(r => r.json())
-            this.answer = answer
+            this.answer = answer === 'yes' ? 'Sí!' : 'No!'
             this.imgSource = image
         }
     },
     watch: {
         question(value, previousValue) {
-            value.includes('?') ? this.getAnswer() : console.log("no terminada")
+            this.isValidQuestion = false
+            if (!value.includes('?')) return
+            this.getAnswer()
+            this.isValidQuestion = true
         }
     }
 }
