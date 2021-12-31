@@ -1,9 +1,10 @@
 <template>
-  <h2>{{ getTitle }}</h2>
+  <h2 test-id="title">{{ getTitle }}</h2>
   <p> {{ counter }} <sup>2</sup> = {{squareCounter}} </p>
+  <p data-testid="counter"> {{ counter }} </p>
   <div>
-      <button v-on:click="increaseCounter">+1</button>
-      <button @click="decreaseCounter">-1</button>
+      <button v-on:click="increaseCounter" test-id="increase">+1</button>
+      <button @click="decreaseCounter" test-id="decrease">-1</button>
   </div>
 </template>
 
@@ -38,7 +39,7 @@ export default {
             return this.counter * this.counter
         },
         getTitle() {
-            return this.title || 'Default title'
+            return this.title || 'Counter'
         }
     }
 }
